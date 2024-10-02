@@ -1,5 +1,0 @@
-# Токен вашего бота
-BOT_TOKEN = 'YOUR_BOT_TOKEN'
-
-# Другие конфиденциальные данные
-# DATABASE_URL = 'YOUR_DATABASE_URL'
