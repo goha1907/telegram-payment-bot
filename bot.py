@@ -1,28 +1,27 @@
 import logging
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from telegram import Update
+from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
 # Настройка логирования
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    level=logging.INFO)
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# Импорт токена из config.py
+from config import BOT_TOKEN
+
 # Функция для обработки команды /start
-def start(update, context):
-    update.message.reply_text('Привет! Я бот для обработки платежей. Выберите валюту: RUB, USDT или ARS.')
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text('Привет! Я бот для обработки платежей. Выберите валюту: RUB, USDT или ARS.')
 
 def main():
-    # Здесь будет ваш токен, который вы получите от BotFather
-    TOKEN = 'YOUR_BOT_TOKEN'
-    
-    updater = Updater(TOKEN, use_context=True)
-    dp = updater.dispatcher
+    # Создание и настройка приложения
+    application = ApplicationBuilder().token(BOT_TOKEN).build()
 
     # Обработчики команд
-    dp.add_handler(CommandHandler("start", start))
+    application.add_handler(CommandHandler("start", start))
 
     # Запуск бота
-    updater.start_polling()
-    updater.idle()
+    application.run_polling()
 
 if __name__ == '__main__':
     main()
